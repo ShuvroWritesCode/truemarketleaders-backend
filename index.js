@@ -10,7 +10,7 @@ connectDB();
 const app = express();
 app.use(cors());
 app.use(express.json());
-console.log('Hello world');
+// console.log('Hello world');
 app.use('/api', dataRoute);
 
 app.get('/status', (request, response) => {
