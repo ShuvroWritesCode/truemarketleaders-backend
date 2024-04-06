@@ -7,7 +7,22 @@ exports.hello = async (req, res) => {
 
 exports.getChart = async (req, res) => {
   try {
-    const tickers = await Chart.findOne().select('chart');
+    // Extract ticker name from the request body
+    const { ticker } = req.body;
+
+    // Validate if the ticker name is provided
+    if (!ticker) {
+      return res.status(400).json({ error: 'Ticker name is required' });
+    }
+
+    // Find the chart data for the provided ticker
+    const tickers = await Chart.findOne({ ticker }).select('chart');
+
+    // Check if the ticker is found
+    if (!tickers) {
+      return res.status(404).json({ error: 'Ticker not found' });
+    }
+
     const chartData = tickers.chart;
 
     // Create an object to store unique dates as keys
