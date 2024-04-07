@@ -14,11 +14,22 @@ dotenv.config({ path: './config/config.env' });
 require('./config/passport')(passport);
 connectDB();
 const app = express();
-app.use(cors());
 app.use(express.json());
 
 // Body parser
 app.use(express.urlencoded({ extended: false }));
+
+
+const corsOptions = {
+  credentials: true,
+  origin: [
+    'http://localhost:5173',
+  ], // Allow requests from this origin
+  methods: 'GET,POST', // Allow only GET and POST requests
+  allowedHeaders: 'Content-Type,Authorization', // Allow only these headers
+};
+
+app.use(cors(corsOptions));
 
 // Sessions
 app.use(

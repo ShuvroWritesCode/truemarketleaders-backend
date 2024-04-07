@@ -4,7 +4,7 @@ const passport = require('passport');
 const User = require('../models/User');
 
 exports.register = async (req, res) => {
-  const { firstName, email, password, password2 } = req.body;
+  const { name, email, password, password2 } = req.body;
 
   User.findOne({ email: email }).then((user) => {
     if (user) {
@@ -12,7 +12,7 @@ exports.register = async (req, res) => {
       res.status(400).json({ msg: 'user exists' });
     } else {
       const newUser = new User({
-        firstName,
+        name,
         email,
         password,
       });
@@ -48,7 +48,7 @@ exports.login = (req, res, next) => {
         return next(err);
       }
       // Authentication successful, send your response here
-      return res.status(200).json({ message: user.firstName + ' Logged In' });
+      return res.status(200).json({ message: user.name + ' Logged In' });
     });
   })(req, res, next);
 };
@@ -60,6 +60,6 @@ exports.logout = (req, res) => {
     if (err) {
       return res.status(500).json({ message: 'Failed to log out' });
     }
-    res.status(200).json({ msg: user.firstName + ' Logging you out' });
+    res.status(200).json({ msg: user.name + ' Logging you out' });
   });
 };
