@@ -55,16 +55,22 @@ exports.login = (req, res, next) => {
 
 exports.logout = (req, res) => {
   const { user } = req; 
-  console.log(req);
-  res.clearCookie('connect.sid');
   req.logOut((err) => {
     if (err) {
       return res.status(500).json({ message: 'Failed to log out' });
     }
 
-    res.status(200).json({ msg: user.name + ' Logging you out' });
+    req.session.destroy(function (err) {
+      if (!err) {
+        res.clearCookie('connect.sid');
+        return res.status(200).json({ msg: user.name + ' Logging you out' });
+      } else {
+        return res.status(401).json({ message: 'Failed to log out' });
+      }
+    });
   });
 };
+
 
 exports.authenticate = (req, res) => {
   try {
