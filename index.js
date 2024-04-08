@@ -8,23 +8,28 @@ const MongoStore = require('connect-mongo');
 const connectDB = require('./config/db');
 const dataRoute = require('./routes/dataRoute');
 const authRoute = require('./routes/authRoute');
+const { createProxyMiddleware } = require('http-proxy-middleware');
 
 dotenv.config({ path: './config/config.env' });
 // Passport config
 require('./config/passport')(passport);
 connectDB();
 const app = express();
+// app.use(
+//   '/api',
+//   createProxyMiddleware({
+//     target: 'http://localhost:3000/api',
+//     changeOrigin: true,
+//   })
+// );
 app.use(express.json());
 
 // Body parser
 app.use(express.urlencoded({ extended: false }));
 
-
 const corsOptions = {
   credentials: true,
-  origin: [
-    'http://localhost:5173',
-  ], // Allow requests from this origin
+  origin: ['http://localhost:5173'], // Allow requests from this origin
   methods: 'GET,POST', // Allow only GET and POST requests
   allowedHeaders: 'Content-Type,Authorization', // Allow only these headers
 };
@@ -38,6 +43,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.MONGO_URI }),
+    // cookie: { secure: true, sameSite: 'None' }, // Set SameSite to None (Development Only)
   })
 );
 
