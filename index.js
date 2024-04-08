@@ -9,6 +9,7 @@ const connectDB = require('./config/db');
 const dataRoute = require('./routes/dataRoute');
 const authRoute = require('./routes/authRoute');
 const { createProxyMiddleware } = require('http-proxy-middleware');
+const cookieParser = require('cookie-parser');
 
 dotenv.config({ path: './config/config.env' });
 // Passport config
@@ -23,6 +24,7 @@ const app = express();
 //   })
 // );
 app.use(express.json());
+app.use(cookieParser());
 
 // Body parser
 app.use(express.urlencoded({ extended: false }));

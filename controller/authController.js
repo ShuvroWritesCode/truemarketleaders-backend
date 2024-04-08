@@ -54,12 +54,34 @@ exports.login = (req, res, next) => {
 };
 
 exports.logout = (req, res) => {
-  const { user } = req; // Retrieve user object from request
-
+  const { user } = req; 
+  console.log(req);
+  res.clearCookie('connect.sid');
   req.logOut((err) => {
     if (err) {
       return res.status(500).json({ message: 'Failed to log out' });
     }
+
     res.status(200).json({ msg: user.name + ' Logging you out' });
   });
 };
+
+exports.authenticate = (req, res) => {
+  try {
+    // console.log(req);
+    const token = req.cookies && req.cookies['connect.sid'];
+    // console.log(token);
+
+    if (token) {
+      // User has an active session
+      res.status(200).json({ isAuthenticated: true });
+    } else {
+      // No active session
+      res.status(401).json({ isAuthenticated: false });
+    }
+  } catch (error) {
+    console.error('Error during user authentication:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
