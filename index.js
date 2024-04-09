@@ -45,7 +45,9 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: 'mongodb+srv://sarhancapital:temporaryPassword100!@marketterminalfinance.lnb53b1.mongodb.net/?retryWrites=true&w=majority' }),
-    // cookie: { secure: true, sameSite: 'None' }, // Set SameSite to None (Development Only)
+    cookie: {
+      domain: '.vercel.app', 
+    },
   })
 );
 
