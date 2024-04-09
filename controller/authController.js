@@ -91,3 +91,7 @@ exports.authenticate = (req, res) => {
   }
 };
 
+exports.test = (req,res) =>{
+  console.log("working");
+}
+
