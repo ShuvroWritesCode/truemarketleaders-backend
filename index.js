@@ -31,8 +31,8 @@ app.use(express.urlencoded({ extended: false }));
 
 const corsOptions = {
   credentials: true,
-  origin: ['http://localhost:5173', 'https://truemarketleaders-63ux4ejyg-ash200042123s-projects.vercel.app/'], // Allow requests from this origin
-  methods: 'GET,POST', // Allow only GET and POST requests
+  origin: ['http://localhost:5173', 'https://truemarketleaders-63ux4ejyg-ash200042123s-projects.vercel.app'], // Allow requests from this origin
+  methods: ['GET,POST'], // Allow only GET and POST requests
   allowedHeaders: 'Content-Type,Authorization', // Allow only these headers
 };
 
